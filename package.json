@@ -1,0 +1,25 @@
+{
+  "name": "vue-ssr",
+  "version": "1.0.0",
+  "description": "vue ssr",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BadWaka/vue-ssr.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BadWaka/vue-ssr/issues"
+  },
+  "homepage": "https://github.com/BadWaka/vue-ssr#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "vue": "^2.5.13",
+    "vue-server-renderer": "^2.5.13"
+  }
+}
