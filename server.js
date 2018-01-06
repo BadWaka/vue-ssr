@@ -1,6 +1,7 @@
 const Vue = require('vue');
 const server = require('express')();
 const fs = require('fs');
+const createApp = require('./app');
 
 const renderer = require('vue-server-renderer').createRenderer({
     template: fs.readFileSync('./index.template.html', 'utf-8')
@@ -9,12 +10,7 @@ const renderer = require('vue-server-renderer').createRenderer({
 const port = 3000;
 
 server.get('*', (req, res) => {
-    const app = new Vue({
-        data: {
-            url: req.url
-        },
-        template: `<div>访问的 url 是: {{url}}</div>`
-    });
+    const app = createApp({url: req.url});
     const context = {
         title: 'waka',
         meta: `
