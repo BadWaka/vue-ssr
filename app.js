@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import {createRouter} from './router';
+import {createStore} from './store';
 // 导出一个工厂函数，用于创建一个新的应用程序、router 和 store 实例
 export function createApp() {
     // 创建 router 实例
