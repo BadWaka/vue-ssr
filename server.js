@@ -1,31 +1,30 @@
-const Vue = require('vue');
 const server = require('express')();
-const fs = require('fs');
+const port = 3000;
 const createApp = require('./app');
-
 const renderer = require('vue-server-renderer').createRenderer({
     template: fs.readFileSync('./index.template.html', 'utf-8')
 });
 
-const port = 3000;
-
 server.get('*', (req, res) => {
-    const app = createApp({url: req.url});
     const context = {
-        title: 'waka',
-        meta: `
-            <meta charset="utf8">
-        `
+        url: req.url
     };
-    renderer.renderToString(app, context, (err, html) => {
-        console.log('html', html);
-        if (err) {
-            res
-                .status(500)
-                .end('Internal Server Error');
-            return false;
-        }
-        res.end(html);
+    createApp(context).then(app => {
+        renderer.renderToString(app, (err, html) => {
+            if (err) {
+                if (err.code === 404) {
+                    res
+                        .status(404)
+                        .end('Page not found');
+                } else {
+                    res
+                        .status(500)
+                        .end('Internal Server Error');
+                }
+            } else {
+                res.end(html);
+            }
+        });
     });
 });
 
