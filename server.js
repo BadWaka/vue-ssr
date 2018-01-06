@@ -1,8 +1,12 @@
 const Vue = require('vue');
 const server = require('express')();
-const renderer = require('vue-server-renderer').createRenderer();
+const fs = require('fs');
 
-const port = 8080;
+const renderer = require('vue-server-renderer').createRenderer({
+    template: fs.readFileSync('./index.template.html', 'utf-8')
+});
+
+const port = 3000;
 
 server.get('*', (req, res) => {
     const app = new Vue({
@@ -11,24 +15,21 @@ server.get('*', (req, res) => {
         },
         template: `<div>访问的 url 是: {{url}}</div>`
     });
-    renderer.renderToString(app, (err, html) => {
+    const context = {
+        title: 'waka',
+        meta: `
+            <meta charset="utf8">
+        `
+    };
+    renderer.renderToString(app, context, (err, html) => {
+        console.log('html', html);
         if (err) {
             res
                 .status(500)
                 .end('Internal Server Error');
             return false;
         }
-        res.end(`
-            <!DOCTYPE html>
-            <html lang="en">
-                <head>
-                    <title>Hello</title>
-                </head>
-                <body>
-                    ${html}
-                </body>
-            </html>
-        `);
+        res.end(html);
     });
 });
 
